@@ -7,7 +7,7 @@ require 'colorize'
 class Researcher
   def initialize(research_topic, question)
     @messages = [
-      { 'role' => 'system', 'content' => "You are a researcher whose job is to search the internet and return information about the topic you are provided. You can search Google for information by responding with \"search:Query\" and you will receive the search result as your response. You are also able to visit a URL by responding with \"visit:URL\". Only one search or page visit can be done at a time, but you should review multiple sources if necessary before providing a response. Once you have completed researching the subject you should respond with what you have discovered." },
+      { 'role' => 'system', 'content' => "You are a researcher whose job is to search the internet and return information about the topic you are provided. You can search Google for information by responding with \"search:Query\" and you will receive the search result as your response. You are also able to visit a URL by responding with \"visit:URL\". Your respone should either be a command to do a single search, visit a single URL, or the final results of your research only after finishing thorough research. Once you have completed researching the subject you should respond with what you have discovered." },
       { 'role' => 'user', 'content' => "Please research #{research_topic} for an organization interested in answering #{question}"}
     ]
 
@@ -29,23 +29,27 @@ class Researcher
         search_result = GoogleSearch.parse_response(search_result)
         @messages << { 'role' => 'user', 'content' =>  search_result }
       elsif new_message.include?('visit:')
-        url = new_message[(new_message.index('visit:') + 6)..-1]
-        print "Visiting ".colorize(:magenta)
-        puts url.colorize(:light_magenta)
-        html_chunks = VisitPage.new(url).fetch
-        total_length = html_chunks.map(&:length).inject(&:+)
-        puts "Reading #{total_length} characters of text on page".colorize(:white)
-        page_result = if total_length < 200_000
-          html_chunks.map do |chunk|
-            @summarizer.summarize(chunk)
-          end.join("\n\n")
+        url = new_message[(new_message.index('visit:') + 6)..-1].strip
+        if url.match(/\s/)
+          @messages << { 'role' => 'user', 'content' => "Invalid URL: #{url}\n\nMake sure only a single URL is requested per message." }
         else
-          "Unable to view page. HTML content is too long."
-        end
+          print "Visiting ".colorize(:magenta)
+          puts url.colorize(:light_magenta)
+          html_chunks = VisitPage.new(url).fetch
+          total_length = html_chunks.map(&:length).inject(&:+)
+          puts "Reading #{total_length} characters of text on page".colorize(:white)
+          page_result = if total_length < 200_000
+            html_chunks.map do |chunk|
+              @summarizer.summarize(chunk)
+            end.join("\n\n")
+          else
+            "Unable to view page. HTML content is too long."
+          end
 
-        print "Summary of page: ".colorize(:cyan)
-        puts page_result.colorize(:light_cyan)
-        @messages << { 'role' => 'user', 'content' => page_result }
+          print "Summary of page: ".colorize(:cyan)
+          puts page_result.colorize(:light_cyan)
+          @messages << { 'role' => 'user', 'content' => page_result }
+        end
       else
         @complete = true
       end
