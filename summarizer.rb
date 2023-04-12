@@ -1,9 +1,9 @@
 require './chat_gpt'
 
 class Summarizer
-  def initialize(topic)
+  def initialize(topic, question)
     @messages = [
-      { 'role' => 'system', 'content' => "Your task is to scan through portions of HTML documents and extract just the useful parts of the content for someone that interested in \"#{topic}\". Be sure to include all facts and numbers that would be useful for someone doing this research in your response while leaving out any erroneous information. Inlude information about links to where additional useful information may be found. Do not do any analysis of the information, just provide the useful pieces of info. If none of the provided text is useful respond simply by saying \"Nothing\". If you are unsure whether something could be useful, it is better to err on the side of including extra information." },
+      { 'role' => 'system', 'content' => "Your task is to scan through portions of HTML documents and extract all of the useful pieces of data for a researcher looking into \"#{topic}\" who is part of an organization interested in answering #{question}. Be sure to include all facts and numbers that would be useful for someone doing this research in your response while leaving out any erroneous information. Inlude information about links to where additional useful information may be found. Do not do any analysis of the information, just provide the useful pieces of info. If none of the provided text is useful respond simply by saying \"Nothing\". If you are unsure whether something could be useful, it is better to err on the side of including extra information." },
     ]
 
     @chat_gpt = ChatGPT.new(model: 'gpt-3.5-turbo')

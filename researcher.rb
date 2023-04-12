@@ -12,7 +12,7 @@ class Researcher
     ]
 
     @chat_gpt = ChatGPT.new
-    @summarizer = Summarizer.new(research_topic)
+    @summarizer = Summarizer.new(research_topic, question)
     @complete = false
   end
 
