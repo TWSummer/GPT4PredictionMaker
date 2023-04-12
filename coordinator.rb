@@ -3,10 +3,17 @@ require './researcher'
 require 'colorize'
 
 class Coordinator
+  SAMPLE_QUESTIONS = [
+    "What is the probability that Post Malone will get married by Jan 1, 2025?",
+    "How many individual pieces of macaroni were manufactured in 2022?",
+    "What is the probability that the New York Yankees will win the World Series this year?",
+    "What will the price of Bitcoin be on Jan 1, 2024?",
+    "How many shovels are owned worldwide?",
+  ]
   def initialize
     @question = ""
     while @question.empty?
-      puts "Enter a question about a value that can be calculated or estimated (ex: What is the probability that Post Malone will get married by Jan 1, 2025?)".colorize(:light_red)
+      puts "Enter a question about a value that can be calculated or estimated (ex: #{SAMPLE_QUESTIONS.sample})".colorize(:light_red)
       print "Question: ".colorize(:red)
       @question = gets.chomp
     end
@@ -26,7 +33,7 @@ class Coordinator
 
     loop_count = 0
     while loop_count < 15
-      add_user_message("Are there #{loop_count == 0 ? "any" : "still remaining " }useful pieces of information that I could look up to help make this estimate more accurate (answer with just yes or no)?")
+      add_user_message("Are there #{loop_count == 0 ? "any " : "still remaining " }useful pieces of information that I could look up to help make this estimate more accurate (answer with just yes or no)?")
       response = @chat_gpt.chat(@messages)
       new_message = @chat_gpt.get_response_message(response)
       add_assistant_message(new_message)
