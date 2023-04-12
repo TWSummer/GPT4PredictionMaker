@@ -9,12 +9,16 @@ class VisitPage
   end
 
   def fetch
-    response = self.class.get(@url, headers: { "User-Agent" => "PredictionMaker" })
+    begin
+      response = self.class.get(@url, headers: { "User-Agent" => "PredictionMaker" })
 
-    if response.code == 200
-      split_html(remove_unwanted_nodes(response.body))
-    else
-      ["Failed to fetch the URL. Status code: #{response.code}"]
+      if response.code == 200
+        split_html(remove_unwanted_nodes(response.body))
+      else
+        ["Failed to fetch the URL. Status code: #{response.code}"]
+      end
+    rescue
+      ["Failed to fetch the URL."]
     end
   end
 
