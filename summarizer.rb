@@ -13,7 +13,6 @@ class Summarizer
     messages = @messages.dup
     messages << { 'role' => 'user', 'content' => text.to_s }
     response = @chat_gpt.chat(messages)
-    puts response
     @chat_gpt.get_response_message(response)
   end
 end

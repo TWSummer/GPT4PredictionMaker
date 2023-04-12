@@ -75,7 +75,7 @@ def remove_unwanted_nodes(html)
   document.to_html.tr("\r\n\t", ' ').gsub(/ {2,}/, ' ')
 end
 
-def split_html(html, max_length = 12_000)
+def split_html(html, max_length = 9_000)
   document = Nokogiri::HTML(html)
   chunks = []
   current_chunk = ''

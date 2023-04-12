@@ -26,13 +26,13 @@ class Coordinator
 
     loop_count = 0
     while loop_count < 15
-      add_user_message("Are there any #{loop_count == 0 ? "" : "other " }useful pieces of information that I could look up to help make this estimate more accurate (answer with just yes or no)?")
+      add_user_message("Are there #{loop_count == 0 ? "any" : "still remaining " }useful pieces of information that I could look up to help make this estimate more accurate (answer with just yes or no)?")
       response = @chat_gpt.chat(@messages)
       new_message = @chat_gpt.get_response_message(response)
       add_assistant_message(new_message)
       break unless new_message.downcase == 'yes'
 
-      add_user_message('What piece of information can I look up to help answer the question? (Describe just the information that should be looked up. No explanation is needed.)')
+      add_user_message('What piece of information can I look up to help answer the question? (Describe just one piece of information that I should look up. No explanation is needed.)')
       response = @chat_gpt.chat(@messages)
       new_message = @chat_gpt.get_response_message(response)
       add_assistant_message(new_message)
