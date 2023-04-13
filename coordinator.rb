@@ -10,7 +10,8 @@ class Coordinator
     "What will the price of Bitcoin be on Jan 1, 2024?",
     "How many shovels have been produced in all of human history?",
     "What will the age be of the oldest person alive on Jan 1, 2030?",
-    "How many words are spoken in total between all of the videos on YouTube?"
+    "How many words are spoken in total between all of the videos on YouTube?",
+    "How much would it cost in US Dollars to buy a full body sloth costume for an adult?",
   ]
   def initialize
     @question = ""
