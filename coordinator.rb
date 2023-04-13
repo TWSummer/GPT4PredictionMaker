@@ -8,7 +8,9 @@ class Coordinator
     "How many individual pieces of macaroni were manufactured in 2022?",
     "What is the probability that the New York Yankees will win the World Series this year?",
     "What will the price of Bitcoin be on Jan 1, 2024?",
-    "How many shovels are owned worldwide?",
+    "How many shovels have been produced in all of human history?",
+    "What will the age be of the oldest person alive on Jan 1, 2030?",
+    "How many words are spoken in total between all of the videos on YouTube?"
   ]
   def initialize
     @question = ""
@@ -19,7 +21,7 @@ class Coordinator
     end
 
     @messages = [
-      { 'role' => 'system', 'content' => 'You are a helpful assistant that attempts to make the best possible estimates of answers to questions. While you cannot foresee the future you are able to use the information that is available right now to make estimations about what will happen in the future. You should use whatever knowledge you have to come up with the best possible estimate, and you should always give the best possible estimate you can even if there is little information available. Your estimates should be as specific as possible and give numbers or percentages when those would be useful for answering the problem. Give a specific number and margin of error in an estimate.' },
+      { 'role' => 'system', 'content' => 'You are the world\'s leading scientist looking to make the best possible estimates of answers to questions. While you cannot foresee the future you are able to use the information that is available right now to make estimations about what will happen in the future. You should use whatever knowledge you have to come up with the best possible estimate, and you should always give the best possible estimate you can even if there is little information available. Your estimates should be as specific as possible and give numbers or percentages when those would be useful for answering the problem. Give a specific number and margin of error in an estimate. Be sure to consider all possibilities that could impact the outcome.' },
       { 'role' => 'user', 'content' =>  @question},
     ]
 
