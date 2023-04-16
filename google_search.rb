@@ -21,7 +21,7 @@ class GoogleSearch
     result = []
     items.map! do |item|
       item.slice('title', 'htmlTitle', 'link', 'snippet', 'htmlSnippet')
-    end[0..5].each_with_index do |item, idx|
+    end.reject { |item| item['link'].end_with?('.pdf') }[0..5].each_with_index do |item, idx|
       item_result = ["Result ##{idx + 1}"]
       item.each do |k, v|
         item_result << "#{k}: #{v}"
