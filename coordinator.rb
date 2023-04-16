@@ -62,7 +62,6 @@ class Coordinator
 
       add_user_message(message)
       response = @chat_gpt.chat(@messages)
-      puts response
       new_message = @chat_gpt.get_response_message(response)
       add_assistant_message(new_message)
     end
