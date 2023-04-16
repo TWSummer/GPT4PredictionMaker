@@ -41,7 +41,7 @@ class Researcher
           page_result = if total_length < 200_000
             html_chunks.map do |chunk|
               @summarizer.summarize(chunk)
-            end.reject { |summary| summary.downcase.in? == ['nothing', 'nothing.'] }.join("\n\n")
+            end.reject { |summary| ['nothing', 'nothing.'].include? summary.downcase }.join("\n\n")
           else
             "Unable to view page. HTML content is too long."
           end
